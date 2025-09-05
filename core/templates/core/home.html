@@ -1,0 +1,150 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: "Inter", sans-serif;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        padding: 100px 20px;
+        text-align: center;
+        border-radius: 0 0 40px 40px;
+    }
+
+    .hero-title {
+        font-size: 3.2rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        opacity: 0.9;
+    }
+
+    .btn-primary {
+        background: #3498db;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background: #2980b9;
+    }
+
+    .btn-outline-secondary {
+        border: 2px solid #fff;
+        color: #fff;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease-in-out;
+        margin-left: 10px;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #fff;
+        color: #764ba2;
+    }
+
+    .section-title {
+        font-weight: 700;
+        margin-bottom: 40px;
+        color: #2c3e50;
+    }
+
+    .card-feature {
+        border: none;
+        border-radius: 15px;
+        background: #fff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .card-feature:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-title {
+        color: #764ba2;
+        font-weight: 600;
+    }
+
+    .recruiter-section {
+        background: linear-gradient(135deg, #764ba2, #667eea);
+        color: #fff;
+        border-radius: 20px;
+        padding: 60px 20px;
+        margin-top: 60px;
+        margin-bottom: 80px;  /* footer se gap */
+    }
+
+
+    .recruiter-section h2 {
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .btn-light {
+        background: #fff;
+        color: #764ba2;
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-weight: 600;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-light:hover {
+        background: #f1f1f1;
+        color: #667eea;
+    }
+</style>
+
+<main>
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">AI-Powered ATS: Your Smartest Recruitment Partner</h1>
+            <p class="hero-subtitle">Optimize your hiring process with intelligent resume ranking and powerful tools.</p>
+            <a href="{% url 'choose_template' %}" class="btn btn-primary btn-lg mt-4">Build a Free Resume</a>
+            <a href="{% url 'candidate_signup' %}" class="btn btn-outline-secondary btn-lg mt-4">Join as a Candidate</a>
+        </div>
+    </section>
+
+    <section class="container mt-5">
+        <h2 class="text-center section-title">Key Features</h2>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="card card-feature p-4">
+                    <h3 class="card-title">Intelligent Ranking</h3>
+                    <p class="card-text">AI-powered system ranks resumes based on job descriptions to find the best talent faster.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-feature p-4">
+                    <h3 class="card-title">Free Resume Builder</h3>
+                    <p class="card-text">Generate professional resumes with AI-driven suggestions for bullet points and skills.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-feature p-4">
+                    <h3 class="card-title">Seamless Management</h3>
+                    <p class="card-text">Manage all your job applications in one place, from posting to shortlisting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container text-center recruiter-section mb-5">
+        <h2>Are You a Recruiter?</h2>
+        <p class="lead">Log in to post jobs and manage applications.</p>
+        <a href="{% url 'login' %}" class="btn btn-light btn-lg mt-3">Recruiter Login</a>
+    </section>
+</main>
+{% endblock %}

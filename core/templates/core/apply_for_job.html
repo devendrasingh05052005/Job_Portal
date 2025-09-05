@@ -1,0 +1,545 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<style>
+    /* Job Application Form Professional Styles */
+    .application-container {
+        background: linear-gradient(135deg, 
+            rgba(102, 126, 234, 0.03) 0%, 
+            rgba(118, 75, 162, 0.03) 50%, 
+            rgba(255, 255, 255, 0.05) 100%);
+        min-height: calc(100vh - 100px);
+        padding: 2rem 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .application-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.1),
+            0 10px 20px rgba(102, 126, 234, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .application-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, 
+            #667eea 0%, 
+            #764ba2 25%, 
+            #f093fb 50%, 
+            #f5576c 75%, 
+            #667eea 100%);
+        background-size: 200% 100%;
+        animation: gradientShift 3s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .application-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 
+            0 30px 60px rgba(0, 0, 0, 0.15),
+            0 15px 30px rgba(102, 126, 234, 0.15);
+    }
+
+    .application-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding: 2rem 2rem 0;
+        animation: fadeInDown 0.6s ease-out 0.2s both;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .application-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+
+    .job-title-highlight {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        display: block;
+        margin-top: 0.5rem;
+    }
+
+    .application-subtitle {
+        color: #64748b;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .application-divider {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(102, 126, 234, 0.3) 50%, 
+            transparent 100%);
+        margin: 2rem 0;
+        animation: expandWidth 0.8s ease-out 0.6s both;
+    }
+
+    @keyframes expandWidth {
+        from { width: 0; margin-left: 50%; }
+        to { width: 100%; margin-left: 0; }
+    }
+
+    .form-container {
+        padding: 0 2rem 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.75rem;
+        animation: slideInLeft 0.6s ease-out both;
+        position: relative;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.8s; }
+    .form-group:nth-child(2) { animation-delay: 0.9s; }
+    .form-group:nth-child(3) { animation-delay: 1s; }
+    .form-group:nth-child(4) { animation-delay: 1.1s; }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.75rem;
+        display: block;
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        position: relative;
+    }
+
+    .required-field {
+        color: #ef4444;
+        margin-left: 0.25rem;
+    }
+
+    .form-control, .form-select, textarea, input[type="file"] {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1rem;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus, .form-select:focus, textarea:focus, input[type="file"]:focus {
+        border-color: #667eea;
+        box-shadow: 
+            0 0 0 4px rgba(102, 126, 234, 0.1),
+            0 4px 12px rgba(102, 126, 234, 0.15);
+        background: rgba(255, 255, 255, 0.95);
+        transform: translateY(-2px);
+        outline: none;
+    }
+
+    .form-control:hover:not(:focus), .form-select:hover:not(:focus), textarea:hover:not(:focus), input[type="file"]:hover:not(:focus) {
+        border-color: #9ca3af;
+        transform: translateY(-1px);
+    }
+
+    /* Special styling for file inputs */
+    input[type="file"] {
+        padding: 1.5rem;
+        border: 2px dashed #d1d5db;
+        background: linear-gradient(135deg, 
+            rgba(102, 126, 234, 0.02) 0%, 
+            rgba(118, 75, 162, 0.02) 100%);
+        cursor: pointer;
+    }
+
+    input[type="file"]:hover {
+        border-color: #667eea;
+        background: linear-gradient(135deg, 
+            rgba(102, 126, 234, 0.05) 0%, 
+            rgba(118, 75, 162, 0.05) 100%);
+    }
+
+    /* Help Text */
+    .help-text {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-top: 0.5rem;
+        font-style: italic;
+        line-height: 1.4;
+    }
+
+    /* Error Styling */
+    .error-list {
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0 0;
+    }
+
+    .error-list li {
+        background: linear-gradient(135deg, 
+            rgba(239, 68, 68, 0.1) 0%, 
+            rgba(220, 38, 38, 0.05) 100%);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 8px;
+        color: #dc2626;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+        animation: shake 0.5s ease-in-out;
+        display: flex;
+        align-items: center;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    .error-icon {
+        margin-right: 0.5rem;
+        color: #dc2626;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        margin-top: 2rem;
+        animation: fadeInUp 0.6s ease-out 1.2s both;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .submit-btn {
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        border: none;
+        border-radius: 50px;
+        padding: 1rem 2rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: white;
+        width: 100%;
+        margin-bottom: 1rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .submit-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent);
+        transition: left 0.5s;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    }
+
+    .submit-btn:hover::before {
+        left: 100%;
+    }
+
+    .submit-btn:active {
+        transform: translateY(-1px);
+    }
+
+    .back-btn {
+        background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+        border: none;
+        border-radius: 50px;
+        padding: 0.875rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        color: white;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .back-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent);
+        transition: left 0.5s;
+    }
+
+    .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+        background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+        color: white;
+        text-decoration: none;
+    }
+
+    .back-btn:hover::before {
+        left: 100%;
+    }
+
+    /* Progress Indicator */
+    .form-progress {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        animation: fadeIn 0.6s ease-out 0.4s both;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .progress-step {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #d1d5db;
+        margin: 0 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .progress-step.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transform: scale(1.2);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .application-container {
+            padding: 1rem 0;
+        }
+
+        .application-header {
+            padding: 1.5rem 1rem 0;
+        }
+
+        .application-title {
+            font-size: 1.75rem;
+        }
+
+        .form-container {
+            padding: 0 1rem 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .submit-btn,
+        .back-btn {
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .application-card {
+            margin: 0.5rem;
+            border-radius: 16px;
+        }
+
+        .application-header {
+            padding: 1rem 0.75rem 0;
+        }
+
+        .application-title {
+            font-size: 1.5rem;
+        }
+
+        .form-container {
+            padding: 0 0.75rem 1rem;
+        }
+
+        .form-control, .form-select, textarea, input[type="file"] {
+            padding: 0.875rem;
+        }
+    }
+
+    /* Loading State for Submit Button */
+    .submit-btn.loading {
+        opacity: 0.8;
+        cursor: not-allowed;
+        color: transparent;
+    }
+
+    .submit-btn.loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<div class="application-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                <div class="application-card">
+                    <!-- Application Header -->
+                    <div class="application-header">
+                        <div class="form-progress">
+                            <div class="progress-step active"></div>
+                            <div class="progress-step"></div>
+                            <div class="progress-step"></div>
+                        </div>
+                        
+                        <h2 class="application-title">
+                            <i class="fas fa-file-alt me-2"></i>
+                            Apply for Position
+                            <span class="job-title-highlight">{{ job.title }}</span>
+                        </h2>
+                        <p class="application-subtitle">
+                            Complete the form below to submit your application
+                        </p>
+                    </div>
+
+                    <hr class="application-divider">
+
+                    <!-- Application Form -->
+                    <div class="form-container">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                    </label>
+                                    
+                                    {{ field }}
+                                    
+                                    {% if field.help_text %}
+                                        <div class="help-text">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            {{ field.help_text }}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    {% if field.errors %}
+                                        <ul class="error-list">
+                                            {% for error in field.errors %}
+                                                <li>
+                                                    <i class="fas fa-exclamation-triangle error-icon"></i>
+                                                    {{ error }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <button type="submit" class="submit-btn">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Submit Application
+                                </button>
+                                
+                                <a href="{% url 'candidate_dashboard' %}" class="back-btn">
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    Back to Dashboard
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

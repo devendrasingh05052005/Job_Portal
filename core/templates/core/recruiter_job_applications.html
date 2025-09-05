@@ -1,0 +1,221 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #6c5ce7;
+        --secondary-color: #f1f3f5;
+        --dark-text: #343a40;
+        --light-text: #6c757d;
+        --border-light: #e9ecef;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --info-color: #17a2b8;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        margin-top: 2rem;
+    }
+
+    /* Header Card */
+    .header-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        transition: transform 0.2s ease-in-out;
+    }
+    .header-card:hover {
+        transform: translateY(-3px);
+    }
+    .header-card h2 {
+        font-weight: 700;
+        color: var(--dark-text);
+        margin-bottom: 0;
+    }
+
+    /* Buttons */
+    .btn-secondary {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: var(--dark-text);
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        transition: all 0.2s ease-in-out;
+    }
+    .btn-secondary:hover {
+        background-color: #dee2e6;
+        border-color: #dee2e6;
+        transform: scale(1.05);
+    }
+
+    /* Applications Card */
+    .applications-list-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    }
+
+    /* List Item */
+    .list-item-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+        border: 1px solid var(--border-light);
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .list-item-card:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    /* Candidate Info */
+    .candidate-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .candidate-info h5 {
+        font-weight: 700;
+        color: var(--primary-color);
+        margin: 0;
+    }
+
+    /* Profile Avatar */
+    .avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow: 0 3px 10px rgba(108, 92, 231, 0.4);
+    }
+
+    /* Score Badge */
+    .ranking-score-badge {
+        font-size: 0.95rem;
+        font-weight: 700;
+        background-color: var(--info-color);
+        color: white;
+        padding: 0.5em 1.2em;
+        border-radius: 30px;
+        box-shadow: 0 2px 10px rgba(23,162,184,0.3);
+    }
+
+    /* Status Badge */
+    .status-badge {
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.4em 1em;
+        border-radius: 30px;
+        color: #fff;
+    }
+    .status-badge.Applied {
+        background-color: #6c757d;
+    }
+    .status-badge.Shortlisted {
+        background-color: var(--success-color);
+    }
+    .status-badge.Rejected {
+        background-color: var(--danger-color);
+    }
+
+    /* Action Buttons */
+    .btn-sm {
+        border-radius: 8px;
+        padding: 0.4rem 0.9rem;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+    }
+    .btn-sm:hover {
+        transform: scale(1.07);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .list-item-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .candidate-info h5 {
+            font-size: 1rem;
+        }
+        .ranking-score-badge {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="header-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="welcome-header">Applications for "{{ job.title }}"</h2>
+                </div>
+                <a href="{% url 'recruiter_dashboard' %}" class="btn btn-secondary">Go back to Dashboard</a>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
+
+{% if applications %}
+<div class="row">
+    <div class="col-12">
+        <div class="applications-list-card">
+            <p class="h5 mb-4">Total Applications: <strong>{{ applications.count }}</strong></p>
+            <ul class="list-group list-group-flush">
+                {% for application in applications %}
+                <li class="list-group-item p-0 mb-3">
+                    <div class="list-item-card">
+                        <!-- Candidate Info -->
+                        <div class="candidate-info">
+                            <div class="avatar">
+                                {{ application.candidate.username|slice:":1"|upper }}
+                            </div>
+                            <h5>Candidate: {{ application.candidate.username }}</h5>
+                            <span class="ranking-score-badge">{{ application.ranking_score|floatformat:2 }}% Score</span>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="d-flex gap-2 align-items-center flex-wrap">
+                            <span class="status-badge {{ application.status }}">Status: {{ application.status }}</span>
+                            <a href="{{ application.resume.url }}" target="_blank" class="btn btn-sm btn-info">Download Resume</a>
+                            <a href="{% url 'shortlist_application' application.id %}" class="btn btn-sm btn-success">Shortlist</a>
+                            <a href="{% url 'reject_application' application.id %}" class="btn btn-sm btn-danger">Reject</a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <p class="text-center text-muted mt-5">Abhi is job ke liye koi application nahi hai.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

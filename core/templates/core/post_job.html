@@ -1,0 +1,120 @@
+<h2 class="form-title">Job Post Karein</h2>
+
+<form method="post" class="job-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-submit">Post Job</button>
+</form>
+
+<div class="link-container">
+    <a href="{% url 'recruiter_dashboard' %}" class="dashboard-link">⬅ Recruiter Dashboard</a>
+</div>
+
+<style>
+    body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: 2rem;
+    }
+
+    .form-title {
+        text-align: center;
+        color: #343a40;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+
+    .job-form {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .job-form p {
+        margin-bottom: 1rem;
+    }
+
+    .job-form label {
+        font-weight: 600;
+        color: #495057;
+        display: block;
+        margin-bottom: 0.4rem;
+    }
+
+    .job-form input,
+    .job-form select,
+    .job-form textarea {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        font-size: 1rem;
+        background-color: #f8f9fa;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .job-form input:focus,
+    .job-form select:focus,
+    .job-form textarea:focus {
+        border-color: #6c5ce7;
+        outline: none;
+        box-shadow: 0 0 6px rgba(108, 92, 231, 0.4);
+        background-color: #fff;
+    }
+
+    .btn-submit {
+        background-color: #6c5ce7;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.2s ease-in-out;
+        margin-top: 1rem;
+    }
+
+    .btn-submit:hover {
+        background-color: #5a4bd1;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+    }
+
+    .link-container {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+    .dashboard-link {
+        text-decoration: none;
+        font-weight: 600;
+        color: #6c5ce7;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .dashboard-link:hover {
+        color: #5a4bd1;
+        text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .form-title {
+            font-size: 1.6rem;
+        }
+        .job-form {
+            padding: 1.5rem;
+        }
+    }
+</style>

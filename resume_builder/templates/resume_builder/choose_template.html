@@ -1,0 +1,132 @@
+{% extends 'core/base.html' %}
+
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Resume Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+            color: #333;
+        }
+
+        /* 🔹 Professional Header */
+        header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .template-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .template-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .template-card h3 {
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        button {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .back-link:hover {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <!-- 🔹 Professional Header -->
+    <header>
+        <h2>Choose Your Resume Template</h2>
+        <p>Apna pasandida template chunein aur apna resume banayein</p>
+    </header>
+
+    <div class="container">
+        <div class="template-container">
+            {% for template in templates %}
+                <div class="template-card">
+                    <h3>{{ template.name }}</h3>
+                    <p>Template {{ template.id }}</p>
+                    <a href="{% url 'resume_builder' template.id %}">
+                        <button>Choose This Template</button>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'home' %}" class="back-link">⬅ Go back to Home</a>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Resume Builder</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+
+        form p {
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: #2c3e50;
+        }
+
+        ul {
+            max-width: 600px;
+            margin: 15px auto;
+            background: #ecf6ff;
+            padding: 15px;
+            border-radius: 8px;
+            list-style-type: disc;
+        }
+
+        ul li {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            margin: 5px 15px;
+            display: inline-block;
+        }
+
+        .links a:hover {
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h2>Free Resume Builder - Template {{ template_id }}</h2>
+    <p>Apni jaankari bharein aur AI-based suggestions payein.</p>
+    
+    <form action="{% url 'resume_builder' template_id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <button type="submit">Get Suggestions</button>
+    </form>
+    
+    {% if ai_suggestions %}
+        <h3>AI-Powered Suggestions for Work Experience:</h3>
+        <ul>
+            {% for suggestion in ai_suggestions %}
+                <li>{{ suggestion }}</li>
+            {% endfor %}
+        </ul>
+        <p style="text-align:center;"><i>Copy these bullet points to your resume.</i></p>
+
+        <div style="text-align:center; margin:20px 0;">
+            <a href="{% url 'download_resume' %}">
+                <button>Download Final Resume</button>
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="links">
+        <a href="{% url 'choose_template' %}">⬅ Go back to Templates</a>
+        <a href="{% url 'home' %}">🏠 Go back to Home</a>
+    </div>
+</body>
+</html>
+
+{% endblock %}

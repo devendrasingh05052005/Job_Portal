@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ full_name }} Resume</title>
+    <style>
+        body { font-family: Georgia, serif; line-height: 1.6; max-width: 800px; margin: auto; padding: 20px; }
+        h1 { border-bottom: 1px dotted #666; padding-bottom: 5px; }
+        h3 { color: #666; }
+    </style>
+</head>
+<body>
+    <h1>{{ full_name }}</h1>
+    <p>Email: {{ email }} | Phone: {{ phone_number }}</p>
+    <hr>
+    
+    <h3>Work Experience</h3>
+    <p>{{ work_experience|linebreaksbr }}</p>
+    
+    <h3>Education</h3>
+    <p>{{ education|linebreaksbr }}</p>
+    
+    <h3>Skills</h3>
+    <p>{{ skills|linebreaksbr }}</p>
+    
+    {% if ai_suggestions %}
+    <h3>AI Suggestions</h3>
+    <ul>
+        {% for suggestion in ai_suggestions %}
+            <li>{{ suggestion }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</body>
+</html>
